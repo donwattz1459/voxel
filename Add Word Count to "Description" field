@@ -30,7 +30,7 @@ function add_character_count_script() {
 
 .word-count.red {
     background-color: red;
-    color: #000;
+    color: #fff;
     padding: 3px 5px;
     border-radius: 5px;
     margin-left: 5px;
