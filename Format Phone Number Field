@@ -1,0 +1,12 @@
+//This code will format the phone number field as follows (xxx) xxx-xxxx
+//Add thios in Elementor Pro > Custom Code > entire site or in the HTML widget on the creation page.
+
+<script>
+jQuery(document).ready(function($) {
+  var phoneInput = $('.field-key-phone .input');
+  phoneInput.on('input', function() {
+    var formattedNumber = this.value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    this.value = formattedNumber;
+  });
+});
+</script>
