@@ -3,11 +3,21 @@
 <script>
 jQuery(document).ready(function($) {
   var websiteInput = $('.field-key-website input');
+  var urlInput = $('.field-key-url input');
+  
   websiteInput.on('blur', function() {
     var websiteValue = this.value.trim();
     if (websiteValue !== '' && websiteValue.indexOf('http://') !== 0 && websiteValue.indexOf('https://') !== 0) {
       this.value = 'http://' + websiteValue;
     }
   });
+  
+  urlInput.on('blur', function() {
+    var urlValue = this.value.trim();
+    if (urlValue !== '' && urlValue.indexOf('http://') !== 0 && urlValue.indexOf('https://') !== 0) {
+      this.value = 'http://' + urlValue;
+    }
+  });
 });
+
 </script>
