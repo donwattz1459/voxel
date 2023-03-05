@@ -1,0 +1,13 @@
+//This code will detect http:// int he URL field. If the field doesn't contain it, the code will automatically add it. 
+
+<script>
+jQuery(document).ready(function($) {
+  var websiteInput = $('.field-key-website input');
+  websiteInput.on('blur', function() {
+    var websiteValue = this.value.trim();
+    if (websiteValue !== '' && websiteValue.indexOf('http://') !== 0 && websiteValue.indexOf('https://') !== 0) {
+      this.value = 'http://' + websiteValue;
+    }
+  });
+});
+</script>
