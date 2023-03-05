@@ -5,22 +5,26 @@
 function add_character_count_script() {
     ?>
  <style>
-.word-count-container {
+.char-count-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin-top: 5px;
 }
 
-.word-count {
+.char-count {
     font-weight: bold;
 }
 
-.word-count.black {
+.char-count.black {
     color: #000;
+    background-color: #8CC63F;
+    padding: 3px 5px;
+    border-radius: 5px;
+    margin-left: 5px;
 }
 
-.word-count.orange {
+.char-count.orange {
     background-color: orange;
     color: #000;
     padding: 3px 5px;
@@ -28,9 +32,9 @@ function add_character_count_script() {
     margin-left: 5px;
 }
 
-.word-count.red {
+.char-count.red {
     background-color: red;
-    color: #fff;
+    color: #000;
     padding: 3px 5px;
     border-radius: 5px;
     margin-left: 5px;
@@ -41,30 +45,30 @@ function add_character_count_script() {
 document.addEventListener('DOMContentLoaded', function() {
     var field = document.querySelector('.elementor-9 .elementor-element.elementor-element-095c15d .ts-form-group .mce-content-body');
     var container = document.createElement('div');
-    container.classList.add('word-count-container');
+    container.classList.add('char-count-container');
     field.parentNode.insertBefore(container, field.nextSibling);
     var count = document.createElement('div');
-    count.classList.add('word-count', 'black');
-    count.textContent = '0/50';
+    count.classList.add('char-count', 'black');
+    count.textContent = '0/350';
     container.appendChild(count);
 
     field.addEventListener('input', function() {
-        var wordCount = this.textContent.trim().split(/\s+/).length;
-        var maxWordCount = 50;
-        count.textContent = wordCount + '/' + maxWordCount;
+        var charCount = this.textContent.trim().length;
+        var maxCharCount = 350;
+        count.textContent = charCount + '/' + maxCharCount;
 
-        if (wordCount >= 40 && wordCount < maxWordCount) {
+        if (charCount >= 280 && charCount < maxCharCount) {
             count.classList.remove('black', 'red');
             count.classList.add('orange');
-            count.textContent = wordCount + '/' + maxWordCount;
-        } else if (wordCount >= maxWordCount) {
+            count.textContent = charCount + '/' + maxCharCount;
+        } else if (charCount >= maxCharCount) {
             count.classList.remove('black', 'orange');
             count.classList.add('red');
-            count.textContent = wordCount + '/' + maxWordCount;
+            count.textContent = charCount + '/' + maxCharCount;
         } else {
             count.classList.remove('orange', 'red');
             count.classList.add('black');
-            count.textContent = wordCount + '/' + maxWordCount;
+            count.textContent = charCount + '/' + maxCharCount;
         }
     });
 });
