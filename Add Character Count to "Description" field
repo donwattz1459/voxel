@@ -1,3 +1,7 @@
+//This code gets pasted into your child theme functions.php file. 
+//I recommend putting everything between the style tags in your Appearance > Customizer > Custom CSS OR under Elementor > Site Settings > Custom CSS location.
+//You can then remove the start and ending style tags from the code.
+
 function add_character_count_script() {
     ?>
     <style>
