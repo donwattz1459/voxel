@@ -1,0 +1,9 @@
+function add_product_id_to_slug( $data, $postarr ) {
+	//change "product" to your post type slug
+    if ( $data['post_type'] == 'product' && $data['post_status'] == 'publish' ) {
+        $post_id = $postarr['ID'];
+        $data['post_name'] = $post_id . '-' . $data['post_name'];
+    }
+    return $data;
+}
+add_filter( 'wp_insert_post_data', 'add_product_id_to_slug', 10, 2 );
