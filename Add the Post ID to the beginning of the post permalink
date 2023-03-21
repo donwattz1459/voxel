@@ -1,8 +1,11 @@
 function add_product_id_to_slug( $data, $postarr ) {
-	//change "product" to your post type slug
     if ( $data['post_type'] == 'product' && $data['post_status'] == 'publish' ) {
         $post_id = $postarr['ID'];
-        $data['post_name'] = $post_id . '-' . $data['post_name'];
+        $original_post_status = get_post_meta( $post_id, '_original_post_status', true );
+        if ( empty( $original_post_status ) ) {
+            $data['post_name'] = $post_id . '-' . $data['post_name'];
+            update_post_meta( $post_id, '_original_post_status', 'publish' );
+        }
     }
     return $data;
 }
