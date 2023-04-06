@@ -19,6 +19,11 @@
     background-color: red;
 }
 
+.status_text{
+color: black;
+font-size: 12px;
+}
+
 
 
 
@@ -66,5 +71,5 @@ function author_is_user_logged_in($atts) {
         $text = 'Offline';
         $class = 'red-dot';
     }
-    return '<span class="' . $class . '"></span> ' . $text;
+    return '<span class="' . $class . '"></span> <span class="status_text">' . $text . '</span>';
 }
