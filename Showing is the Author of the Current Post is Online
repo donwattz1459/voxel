@@ -1,0 +1,70 @@
+//USE THIS SHORTCODE [author_is_user_logged_in]
+
+/*ADD THIS TO THE CUSTOM CSS SECTION*/
+.green-dot {
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #50C878;
+}
+
+.red-dot {
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+
+
+
+//PASTE THIS IN THE FUNCTIONS.PHP FILE
+//=======================================================
+add_action('wp', 'update_online_users_status');
+function update_online_users_status(){
+  
+  if(is_user_logged_in()){
+  
+    // get the online users list
+    if(($logged_in_users = get_transient('users_online')) === false) $logged_in_users = array();
+  
+    $current_user = wp_get_current_user();
+    $current_user = $current_user->ID;  
+    $current_time = current_time('timestamp');
+  
+    if(!isset($logged_in_users[$current_user]) || ($logged_in_users[$current_user] < ($current_time - (15 * 60)))){
+      $logged_in_users[$current_user] = $current_time;
+      set_transient('users_online', $logged_in_users, 30 * 60);
+    }
+  
+  }
+}
+  
+add_shortcode('author_is_user_logged_in', 'author_is_user_logged_in');
+function author_is_user_logged_in($atts) {
+    $atts = shortcode_atts(array(
+        'user_id' => '',
+    ), $atts);
+    if (empty($atts['user_id'])) {
+         $user_id =  get_the_author_meta( 'ID' );
+    } else {
+         $user_id = $atts['user_id'];
+    }
+    // get the online users list
+    $logged_in_users = get_transient('users_online');
+    $status = 0;
+    // online, if (s)he is in the list and last activity was less than 15 minutes ago
+    if(isset($logged_in_users[$user_id]) && ($logged_in_users[$user_id] > (current_time('timestamp') - (15 * 60)))) {
+        $status = 1;
+        $text = 'Online';
+        $class = 'green-dot';
+    } else {
+        $text = 'Offline';
+        $class = 'red-dot';
+    }
+    return '<span class="' . $class . '"></span> ' . $text;
+}
