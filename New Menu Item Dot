@@ -1,0 +1,29 @@
+Go to Appearance > Menus > At the top, Screen Options > CSS Classes Check it. Then in the new menu item CSS, add new_menu_item to the field.
+
+Then paste in the customizer > custom css
+
+.new_menu_item .ts-item-icon:after{
+	content: "";
+	width: 10px;
+	height: 10px;
+	border-radius: 100px;
+	background: #9CD6E0;
+	position: absolute;
+	top: 5px;
+	right: 3px;
+}
+
+.new_menu_item{
+	position: relative;
+}
+
+.new_menu_item .ts-term-icon:after{
+	content: "";
+	width: 10px;
+	height: 10px;
+	border-radius: 100px;
+	background: #9CD6E0;
+	position: absolute;
+	top: 5px;
+	left: 24px;
+}
