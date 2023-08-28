@@ -1,0 +1,53 @@
+//CHANGE THE LINE BELOW TO ADD OR REMOVE POST TYPES
+//ADDITIONAL ATTRIBUTES OF THE SHORTCODE
+
+//- [qr_code] will display the QR code for the current post type with a size of 100x100 pixels. Add this s a shortcode element on the front end with a 
+//  condition that the author can see it if you want to allow your customers to use this QR code in marketing or print.
+
+//- [qr_code size="200x200"] will display a larger QR code for the current post type with a size of 200x200 pixels.
+
+// LISTING QR CODE GENERATOR
+// =============================================================================
+function dw_add_custom_box() {
+    $post_types = array('boutique', 'guide'); // CHANGE THE POST TYPES HERE
+    
+    foreach ($post_types as $post_type) {
+        add_meta_box(
+            'dw_box_id',          // Unique ID
+            'QR Code',            // Box title
+            'dw_custom_box_html', // Content function
+            $post_type            // Post type
+        );
+    }
+}
+add_action('add_meta_boxes', 'dw_add_custom_box');
+
+function dw_custom_box_html($post) {
+    $post_name = get_the_title($post->ID); // Get the post name
+
+    ?>
+    <h2>Save the post first, then grab the QR code. If you change the title of the hint, the QR code might change, so double-check.</h2>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=<?php echo esc_url(get_permalink($post->ID)); ?>" title="<?php echo esc_attr($post_name); ?>" />
+    
+    <?php
+    // Add a download button that opens in a new tab
+    $download_url = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . esc_url(get_permalink($post->ID));
+    $download_filename = sanitize_title_with_dashes($post_name) . "_qr_code.png"; // Sanitize the filename
+    
+    ?>
+    <br /><a href="<?php echo $download_url; ?>" download="<?php echo $download_filename; ?>" target="_blank">Download QR Code</a>
+    <?php
+}
+
+// Shortcode to display QR code on the front end
+function dw_qr_code_shortcode($atts) {
+    $attributes = shortcode_atts(array(
+        'size' => '100x100',
+        'post_id' => get_the_ID(),
+    ), $atts);
+
+    $qr_code_url = "https://api.qrserver.com/v1/create-qr-code/?size={$attributes['size']}&data=" . esc_url(get_permalink($attributes['post_id']));
+
+    return '<img src="' . $qr_code_url . '" />';
+}
+add_shortcode('qr_code', 'dw_qr_code_shortcode');
